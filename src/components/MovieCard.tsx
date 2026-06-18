@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
@@ -132,7 +132,7 @@ function CardInner({
             {truncateOverview(movie.overview)}
           </p>
           <span className="mt-1 inline-flex w-fit items-center gap-1.5 rounded-full bg-violet-600/80 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-            View Details ->
+            View Details &rarr;
           </span>
         </div>
 
