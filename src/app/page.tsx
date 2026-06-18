@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
@@ -94,7 +94,7 @@ function Hero({
   searchValue: string;
   onSearchChange: (v: string) => void;
   onSearchClear: () => void;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
 }) {
   return (
     <div className="relative overflow-hidden bg-[#0d1b30]" style={{ minHeight: "280px" }}>
