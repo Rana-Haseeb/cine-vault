@@ -1,20 +1,20 @@
-/**
+﻿/**
  * movieApi.ts — Hybrid TMDB + OMDb Service Layer
  *
- * ┌─ TMDB (The Movie Database) ───────────────────────────────────────────────┐
- * │  All bulk operations: lists, search, pagination, images.                  │
- * │  Auth: Bearer token (TMDB_READ_ACCESS_TOKEN) with API key fallback.       │
- * │  Docs: https://developer.themoviedb.org/docs                              │
- * └───────────────────────────────────────────────────────────────────────────┘
- * ┌─ OMDb (Open Movie Database) ──────────────────────────────────────────────┐
- * │  On-demand deep metadata for single movies only.                          │
- * │  Extracts: Rotten Tomatoes / IMDb / Metacritic scores, director,          │
- * │  cast, awards, box-office, content rating.                                │
- * │  Docs: https://www.omdbapi.com/                                           │
- * └───────────────────────────────────────────────────────────────────────────┘
- * ┌─ No keys? ─────────────────────────────────────────────────────────────────┐
- * │  Falls back to rich mock data so the UI works instantly out-of-box.       │
- * └───────────────────────────────────────────────────────────────────────────┘
+ * +- TMDB (The Movie Database) -----------------------------------------------+
+ * |  All bulk operations: lists, search, pagination, images.                  |
+ * |  Auth: Bearer token (TMDB_READ_ACCESS_TOKEN) with API key fallback.       |
+ * |  Docs: https://developer.themoviedb.org/docs                              |
+ * +---------------------------------------------------------------------------+
+ * +- OMDb (Open Movie Database) ----------------------------------------------+
+ * |  On-demand deep metadata for single movies only.                          |
+ * |  Extracts: Rotten Tomatoes / IMDb / Metacritic scores, director,          |
+ * |  cast, awards, box-office, content rating.                                |
+ * |  Docs: https://www.omdbapi.com/                                           |
+ * +---------------------------------------------------------------------------+
+ * +- No keys? -----------------------------------------------------------------+
+ * |  Falls back to rich mock data so the UI works instantly out-of-box.       |
+ * +---------------------------------------------------------------------------+
  */
 
 import type {
@@ -29,14 +29,14 @@ import type {
   WatchProviders,
 } from "@/types/movie";
 
-// ─── Config ───────────────────────────────────────────────────────────────────
+// --- Config -------------------------------------------------------------------
 
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p";
 const OMDB_BASE = "https://www.omdbapi.com";
 
 // process.env vars are only available server-side in Next.js.
-// Client components run in the browser where these are undefined → mock data.
+// Client components run in the browser where these are undefined -> mock data.
 // Solution: detect server vs client and route client fetches through API proxies
 // (/api/tmdb and /api/omdb) which read the credentials server-side.
 const isServer = typeof window === "undefined";
@@ -49,7 +49,7 @@ const OMDB_KEY   = process.env.OMDB_API_KEY ?? "";
 const HAS_TMDB = isServer ? Boolean(TMDB_TOKEN || TMDB_KEY) : true;
 const HAS_OMDB = isServer ? Boolean(OMDB_KEY) : true;
 
-// ─── Image URL helpers ────────────────────────────────────────────────────────
+// --- Image URL helpers --------------------------------------------------------
 
 export const POSTER_SIZES = {
   small: "w185",
@@ -58,7 +58,7 @@ export const POSTER_SIZES = {
   original: "original",
 } as const;
 
-/** Resolve a TMDB poster_path → full URL, or a styled placeholder. */
+/** Resolve a TMDB poster_path -> full URL, or a styled placeholder. */
 export function getPosterUrl(
   poster_path: string | null,
   size: keyof typeof POSTER_SIZES = "medium"
@@ -69,7 +69,7 @@ export function getPosterUrl(
   return `${TMDB_IMAGE_BASE}/${POSTER_SIZES[size]}${poster_path}`;
 }
 
-/** Resolve a TMDB backdrop_path → full URL. */
+/** Resolve a TMDB backdrop_path -> full URL. */
 export function getBackdropUrl(
   backdrop_path: string | null,
   size: "w780" | "w1280" | "original" = "w1280"
@@ -79,7 +79,7 @@ export function getBackdropUrl(
   return `${TMDB_IMAGE_BASE}/${size}${backdrop_path}`;
 }
 
-/** Resolve a TMDB profile_path → full URL, or a styled placeholder. */
+/** Resolve a TMDB profile_path -> full URL, or a styled placeholder. */
 export function getProfileUrl(
   profile_path: string | null,
   size: "w185" | "h632" | "original" = "w185"
@@ -90,7 +90,7 @@ export function getProfileUrl(
   return `${TMDB_IMAGE_BASE}/${size}${profile_path}`;
 }
 
-/** Resolve a TMDB provider logo_path → full URL. */
+/** Resolve a TMDB provider logo_path -> full URL. */
 export function getProviderLogoUrl(
   logo_path: string | null,
   size: "w45" | "w92" | "w154" | "original" = "w92"
@@ -100,13 +100,13 @@ export function getProviderLogoUrl(
   return `${TMDB_IMAGE_BASE}/${size}${logo_path}`;
 }
 
-// ─── TMDB fetch ───────────────────────────────────────────────────────────────
+// --- TMDB fetch ---------------------------------------------------------------
 
 async function tmdbFetch<T>(
   endpoint: string,
   params: Record<string, string | number> = {}
 ): Promise<T> {
-  // ── Client-side: route through our API proxy so credentials stay server-side
+  // -- Client-side: route through our API proxy so credentials stay server-side
   if (!isServer) {
     const url = new URL("/api/tmdb", window.location.origin);
     url.searchParams.set("endpoint", endpoint);
@@ -119,7 +119,7 @@ async function tmdbFetch<T>(
     return res.json() as Promise<T>;
   }
 
-  // ── Server-side: call TMDB directly with credentials
+  // -- Server-side: call TMDB directly with credentials
   const url = new URL(`${TMDB_BASE}${endpoint}`);
   url.searchParams.set("language", "en-US");
 
@@ -145,7 +145,7 @@ async function tmdbFetch<T>(
   return res.json() as Promise<T>;
 }
 
-// ─── OMDb fetch ───────────────────────────────────────────────────────────────
+// --- OMDb fetch ---------------------------------------------------------------
 
 interface OmdbRating {
   Source: string;
@@ -171,7 +171,7 @@ interface OmdbResponse {
 
 async function omdbFetch(params: Record<string, string>): Promise<OmdbResponse | null> {
   try {
-    // ── Client-side: route through proxy
+    // -- Client-side: route through proxy
     if (!isServer) {
       const url = new URL("/api/omdb", window.location.origin);
       for (const [k, v] of Object.entries(params)) {
@@ -183,7 +183,7 @@ async function omdbFetch(params: Record<string, string>): Promise<OmdbResponse |
       return data.Response === "True" ? data : null;
     }
 
-    // ── Server-side: direct OMDb call
+    // -- Server-side: direct OMDb call
     const url = new URL(OMDB_BASE);
     url.searchParams.set("apikey", OMDB_KEY);
     for (const [k, v] of Object.entries(params)) {
@@ -242,7 +242,7 @@ function parseOmdbRatings(data: OmdbResponse): CriticsRatings {
   };
 }
 
-// ─── Public API — TMDB list/search (bulk) ────────────────────────────────────
+// --- Public API — TMDB list/search (bulk) ------------------------------------
 
 /**
  * Search movies by title query with pagination.
@@ -324,7 +324,7 @@ export async function getGenres(): Promise<Genre[]> {
   return res.genres;
 }
 
-// ─── Public API — Hybrid single-movie detail ─────────────────────────────────
+// --- Public API — Hybrid single-movie detail ---------------------------------
 
 /** TMDB /movie/{id}/credits response shape (partial — we only need cast). */
 interface TmdbCreditsResponse {
@@ -416,12 +416,12 @@ async function fetchWatchProviders(
  * Fetch full movie details.
  *
  * Flow:
- *  1. TMDB /movie/{id}                    → core metadata, imdb_id
+ *  1. TMDB /movie/{id}                    -> core metadata, imdb_id
  *  2. In parallel:
- *     a. TMDB /movie/{id}/credits         → top 10 cast members
- *     b. TMDB /movie/{id}/watch/providers  → streaming availability
- *     c. OMDb ?i={imdb_id}                → critics scores, director, awards
- *        └─ fallback: OMDb ?t={title}&y={year} if imdb_id is missing
+ *     a. TMDB /movie/{id}/credits         -> top 10 cast members
+ *     b. TMDB /movie/{id}/watch/providers  -> streaming availability
+ *     c. OMDb ?i={imdb_id}                -> critics scores, director, awards
+ *        +- fallback: OMDb ?t={title}&y={year} if imdb_id is missing
  *  3. Merge into a single MovieDetail object.
  *
  * All sub-fetches are silent on failure — cast=[], watchProviders=null, criticsRatings=null.
@@ -447,13 +447,13 @@ export async function getMovieById(id: number): Promise<MovieDetail> {
   };
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// --- Helpers ------------------------------------------------------------------
 
 function emptyPage(page: number): MovieListResponse {
   return { page, results: [], total_pages: 0, total_results: 0 };
 }
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+// --- Mock data ----------------------------------------------------------------
 
 const MOCK_GENRES: Genre[] = [
   { id: 28, name: "Action" },
@@ -681,7 +681,7 @@ const MOCK_MOVIES: Movie[] = [
   },
 ];
 
-// ─── Mock implementation functions ───────────────────────────────────────────
+// --- Mock implementation functions -------------------------------------------
 
 const PAGE_SIZE = 6;
 

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
@@ -19,7 +19,7 @@ import {
 } from "@/lib/movieApi";
 import type { Movie, MovieDetail } from "@/types/movie";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types --------------------------------------------------------------------
 
 type TrendingWindow = "day" | "week";
 type PopularTab = "popular" | "now_playing" | "upcoming";
@@ -33,7 +33,7 @@ interface SectionCache {
   top_rated: Movie[];
 }
 
-// ─── Nav ──────────────────────────────────────────────────────────────────────
+// --- Nav ----------------------------------------------------------------------
 
 function Nav({
   onSearchOpen,
@@ -81,7 +81,7 @@ function Nav({
   );
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+// --- Hero ---------------------------------------------------------------------
 
 function Hero({
   backdropUrl,
@@ -159,16 +159,16 @@ function Hero({
   );
 }
 
-// ─── Divider ──────────────────────────────────────────────────────────────────
+// --- Divider ------------------------------------------------------------------
 
 function SectionDivider() {
   return <div className="mx-4 sm:mx-6 lg:mx-8 border-t border-white/5" />;
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 export default function HomePage() {
-  // ── Search state ────────────────────────────────────────────────────────────
+  // -- Search state ------------------------------------------------------------
   const [rawQuery, setRawQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Movie[]>([]);
@@ -178,29 +178,29 @@ export default function HomePage() {
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
 
-  // ── Section data cache ───────────────────────────────────────────────────────
+  // -- Section data cache -------------------------------------------------------
   const [cache, setCache] = useState<Partial<SectionCache>>({});
   const [loadingKeys, setLoadingKeys] = useState<Set<keyof SectionCache>>(new Set());
 
-  // ── Section tab states ───────────────────────────────────────────────────────
+  // -- Section tab states -------------------------------------------------------
   const [trendingWindow, setTrendingWindow] = useState<TrendingWindow>("day");
   const [popularTab, setPopularTab] = useState<PopularTab>("popular");
 
-  // ── Hero backdrop: first trending movie's backdrop ───────────────────────────
+  // -- Hero backdrop: first trending movie's backdrop ---------------------------
   const [heroBackdrop, setHeroBackdrop] = useState<string | null>(null);
 
-  // ── Modal ────────────────────────────────────────────────────────────────────
+  // -- Modal --------------------------------------------------------------------
   const [selectedMovie, setSelectedMovie] = useState<MovieDetail | Movie | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
 
-  // ── Refs ─────────────────────────────────────────────────────────────────────
+  // -- Refs ---------------------------------------------------------------------
   const fetchIdRef = useRef(0);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const isSearchMode = debouncedQuery.trim().length > 0;
 
-  // ── Debounce search ──────────────────────────────────────────────────────────
+  // -- Debounce search ----------------------------------------------------------
   useEffect(() => {
     const t = setTimeout(() => {
       setDebouncedQuery(rawQuery);
@@ -209,7 +209,7 @@ export default function HomePage() {
     return () => clearTimeout(t);
   }, [rawQuery]);
 
-  // ── Fetch a single section (with caching) ────────────────────────────────────
+  // -- Fetch a single section (with caching) ------------------------------------
   const fetchSection = useCallback(
     async (key: keyof SectionCache) => {
       if (cache[key] || loadingKeys.has(key)) return;
@@ -246,7 +246,7 @@ export default function HomePage() {
     [cache, loadingKeys]
   );
 
-  // ── Initial load: fetch all sections in parallel ──────────────────────────────
+  // -- Initial load: fetch all sections in parallel ------------------------------
   useEffect(() => {
     void Promise.all([
       fetchSection("trending_day"),
@@ -256,7 +256,7 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ── Lazy-fetch on tab change ──────────────────────────────────────────────────
+  // -- Lazy-fetch on tab change --------------------------------------------------
   useEffect(() => {
     const key: keyof SectionCache =
       trendingWindow === "day" ? "trending_day" : "trending_week";
@@ -274,7 +274,7 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popularTab]);
 
-  // ── Search fetch ──────────────────────────────────────────────────────────────
+  // -- Search fetch --------------------------------------------------------------
   useEffect(() => {
     if (!debouncedQuery.trim()) {
       setSearchResults([]);
@@ -304,7 +304,7 @@ export default function HomePage() {
       });
   }, [debouncedQuery, searchPage]);
 
-  // ── Handlers ──────────────────────────────────────────────────────────────────
+  // -- Handlers ------------------------------------------------------------------
   const handleSearchChange = useCallback((v: string) => setRawQuery(v), []);
   const handleSearchClear = useCallback(() => {
     setRawQuery("");
@@ -348,7 +348,7 @@ export default function HomePage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  // ── Derived section movies ────────────────────────────────────────────────────
+  // -- Derived section movies ----------------------------------------------------
   const trendingMovies =
     trendingWindow === "day"
       ? cache.trending_day ?? []
@@ -369,7 +369,7 @@ export default function HomePage() {
   const topRatedMovies = cache.top_rated ?? [];
   const topRatedLoading = loadingKeys.has("top_rated");
 
-  // ─────────────────────────────────────────────────────────────────────────────
+  // -----------------------------------------------------------------------------
 
   return (
     <div className="min-h-screen bg-[#0a0e1a] text-white">
@@ -385,7 +385,7 @@ export default function HomePage() {
         inputRef={searchInputRef}
       />
 
-      {/* ── Search Results Mode ──────────────────────────────────────────────── */}
+      {/* -- Search Results Mode ------------------------------------------------ */}
       {isSearchMode ? (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
           <MovieGrid
@@ -412,10 +412,10 @@ export default function HomePage() {
           )}
         </div>
       ) : (
-        /* ── Browse Sections Mode ────────────────────────────────────────────── */
+        /* -- Browse Sections Mode ---------------------------------------------- */
         <main className="pb-16">
 
-          {/* ── Trending ────────────────────────────────────────────────────── */}
+          {/* -- Trending ------------------------------------------------------ */}
           <div id="trending">
             <HScrollSection
               title="Trending"
@@ -434,7 +434,7 @@ export default function HomePage() {
 
           <SectionDivider />
 
-          {/* ── What's Popular ──────────────────────────────────────────────── */}
+          {/* -- What's Popular ------------------------------------------------ */}
           <div id="popular">
             <HScrollSection
               title="What's Popular"
@@ -453,7 +453,7 @@ export default function HomePage() {
 
           <SectionDivider />
 
-          {/* ── Top Rated ───────────────────────────────────────────────────── */}
+          {/* -- Top Rated ----------------------------------------------------- */}
           <div id="top-rated">
             <HScrollSection
               title="Top Rated"

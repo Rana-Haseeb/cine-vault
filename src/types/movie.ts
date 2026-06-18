@@ -1,11 +1,11 @@
-// ─── Genre ───────────────────────────────────────────────────────────────────
+﻿// --- Genre -------------------------------------------------------------------
 
 export interface Genre {
   id: number;
   name: string;
 }
 
-// ─── Core Movie object ────────────────────────────────────────────────────────
+// --- Core Movie object --------------------------------------------------------
 
 export interface Movie {
   id: number;
@@ -27,7 +27,7 @@ export interface Movie {
   backdrop_path: string | null;
 }
 
-// ─── Critics ratings (sourced from OMDb on demand) ───────────────────────────
+// --- Critics ratings (sourced from OMDb on demand) ---------------------------
 
 export interface CriticsRatings {
   /** e.g. "8.8/10"  — from Internet Movie Database via OMDb */
@@ -50,7 +50,7 @@ export interface CriticsRatings {
   boxOffice: string | null;
 }
 
-// ─── Cast member (from TMDB /movie/{id}/credits) ─────────────────────────────
+// --- Cast member (from TMDB /movie/{id}/credits) -----------------------------
 
 export interface CastMember {
   id: number;
@@ -61,7 +61,7 @@ export interface CastMember {
   order: number;                 // Billing order (0 = top-billed)
 }
 
-// ─── Watch providers (from TMDB /movie/{id}/watch/providers) ─────────────────
+// --- Watch providers (from TMDB /movie/{id}/watch/providers) -----------------
 
 export interface WatchProvider {
   provider_id: number;
@@ -81,7 +81,7 @@ export interface WatchProviders {
   link: string | null;
 }
 
-// ─── Detail view (extends Movie with extra fields from /movie/:id) ────────────
+// --- Detail view (extends Movie with extra fields from /movie/:id) ------------
 
 export interface MovieDetail extends Movie {
   runtime: number | null;        // minutes
@@ -114,7 +114,7 @@ export interface SpokenLanguage {
   name: string;
 }
 
-// ─── API response shapes ──────────────────────────────────────────────────────
+// --- API response shapes ------------------------------------------------------
 
 export interface PaginatedResponse<T> {
   page: number;
@@ -125,7 +125,7 @@ export interface PaginatedResponse<T> {
 
 export type MovieListResponse = PaginatedResponse<Movie>;
 
-// ─── Search state (used by UI) ────────────────────────────────────────────────
+// --- Search state (used by UI) ------------------------------------------------
 
 export interface SearchState {
   query: string;
@@ -137,7 +137,7 @@ export interface SearchState {
   error: string | null;
 }
 
-// ─── Filter / sort options ────────────────────────────────────────────────────
+// --- Filter / sort options ----------------------------------------------------
 
 export type SortOption =
   | "popularity.desc"

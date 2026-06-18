@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   useState,
@@ -10,7 +10,7 @@ import {
 } from "react";
 import { Search, X, Loader2 } from "lucide-react";
 
-// ─── Debounce hook ────────────────────────────────────────────────────────────
+// --- Debounce hook ------------------------------------------------------------
 
 function useDebounce<T>(value: T, delayMs: number): T {
   const [debounced, setDebounced] = useState<T>(value);
@@ -23,7 +23,7 @@ function useDebounce<T>(value: T, delayMs: number): T {
   return debounced;
 }
 
-// ─── Props ────────────────────────────────────────────────────────────────────
+// --- Props --------------------------------------------------------------------
 
 interface SearchBarProps {
   /** Called with the debounced query string (empty string on clear) */
@@ -40,7 +40,7 @@ interface SearchBarProps {
   autoFocus?: boolean;
 }
 
-// ─── SearchBar ────────────────────────────────────────────────────────────────
+// --- SearchBar ----------------------------------------------------------------
 
 export default function SearchBar({
   onSearch,

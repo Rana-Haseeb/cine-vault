@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { getMovieById, getPosterUrl, getBackdropUrl } from "@/lib/movieApi";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// --- Helpers ------------------------------------------------------------------
 
 function getRatingColor(r: number) {
   if (r >= 8) return "text-emerald-400";
@@ -53,7 +53,7 @@ function formatDate(d: string) {
   });
 }
 
-// ─── Stat pill ────────────────────────────────────────────────────────────────
+// --- Stat pill ----------------------------------------------------------------
 
 function StatPill({
   icon,
@@ -75,7 +75,7 @@ function StatPill({
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// --- Page ---------------------------------------------------------------------
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -106,7 +106,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-slate-950 text-white">
-      {/* ── Backdrop hero ─────────────────────────────────────────────── */}
+      {/* -- Backdrop hero ----------------------------------------------- */}
       <div className="relative h-72 w-full overflow-hidden sm:h-96 lg:h-[28rem]">
         {backdropSrc ? (
           <Image
@@ -134,7 +134,7 @@ export default async function MovieDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* ── Content ───────────────────────────────────────────────────── */}
+      {/* -- Content ----------------------------------------------------- */}
       <div className="mx-auto max-w-5xl px-4 pb-20 sm:px-6 lg:px-8">
         {/* Poster + title row */}
         <div className="flex gap-6 -mt-24 relative z-10 sm:-mt-32 sm:gap-8">

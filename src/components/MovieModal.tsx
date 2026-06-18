@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   useState,
@@ -24,7 +24,7 @@ import {
 import { getPosterUrl, getBackdropUrl, getProfileUrl, getProviderLogoUrl } from "@/lib/movieApi";
 import type { Movie, MovieDetail, CastMember, WatchProvider } from "@/types/movie";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// --- Helpers ------------------------------------------------------------------
 
 function getRatingColor(r: number) {
   if (r >= 8) return "text-emerald-400";
@@ -63,7 +63,7 @@ function formatDate(d: string): string {
   });
 }
 
-// ─── Stat pill ────────────────────────────────────────────────────────────────
+// --- Stat pill ----------------------------------------------------------------
 
 function StatPill({
   icon,
@@ -85,7 +85,7 @@ function StatPill({
   );
 }
 
-// ─── Loading skeleton ─────────────────────────────────────────────────────────
+// --- Loading skeleton ---------------------------------------------------------
 
 function ModalSkeleton() {
   return (
@@ -120,7 +120,7 @@ function ModalSkeleton() {
   );
 }
 
-// ─── Critics ratings panel ───────────────────────────────────────────────────
+// --- Critics ratings panel ---------------------------------------------------
 
 import type { CriticsRatings } from "@/types/movie";
 
@@ -214,7 +214,7 @@ function CriticsRatingsPanel({ ratings }: { ratings: CriticsRatings }) {
   );
 }
 
-// ─── Modal content ────────────────────────────────────────────────────────────
+// --- Modal content ------------------------------------------------------------
 
 function ModalContent({
   movie,
@@ -236,7 +236,7 @@ function ModalContent({
 
   return (
     <div className="flex flex-col">
-      {/* ── Backdrop banner ─────────────────────────────────────────── */}
+      {/* -- Backdrop banner ------------------------------------------- */}
       <div className="relative h-52 w-full overflow-hidden sm:h-72 lg:h-80">
         {backdropSrc ? (
           <Image
@@ -265,7 +265,7 @@ function ModalContent({
         )}
       </div>
 
-      {/* ── Body ────────────────────────────────────────────────────── */}
+      {/* -- Body ------------------------------------------------------ */}
       <div className="flex flex-col gap-6 px-5 pb-8 pt-0 sm:px-7">
 
         {/* Poster + header */}
@@ -408,7 +408,7 @@ function ModalContent({
           </div>
         )}
 
-        {/* ── Cast carousel (from TMDB /credits) ─────────────────────── */}
+        {/* -- Cast carousel (from TMDB /credits) ----------------------- */}
         {isDetail && detail?.cast && detail.cast.length > 0 && (
           <div className="flex flex-col gap-3">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500">
@@ -476,7 +476,7 @@ function ModalContent({
           </div>
         )}
 
-        {/* ── Where to Watch (from TMDB /watch/providers) ────────────── */}
+        {/* -- Where to Watch (from TMDB /watch/providers) -------------- */}
         {isDetail && detail?.watchProviders && (
           (() => {
             const wp = detail.watchProviders;
@@ -598,7 +598,7 @@ function ModalContent({
   );
 }
 
-// ─── MovieModal ───────────────────────────────────────────────────────────────
+// --- MovieModal ---------------------------------------------------------------
 
 interface MovieModalProps {
   /** Movie detail object — if null + isLoading, shows skeleton */

@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// --- Helpers ------------------------------------------------------------------
 
 /** Build a window of page numbers with ellipsis markers */
 function buildPageWindow(current: number, total: number): (number | "…")[] {
@@ -22,7 +22,7 @@ function buildPageWindow(current: number, total: number): (number | "…")[] {
   return pages;
 }
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// --- Sub-components -----------------------------------------------------------
 
 interface PageButtonProps {
   onClick: () => void;
@@ -71,7 +71,7 @@ function EllipsisMarker() {
   );
 }
 
-// ─── Pagination ───────────────────────────────────────────────────────────────
+// --- Pagination ---------------------------------------------------------------
 
 interface PaginationProps {
   currentPage: number;

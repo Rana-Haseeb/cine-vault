@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getPosterUrl } from "@/lib/movieApi";
 import type { Movie } from "@/types/movie";
 
-// ─── Rating Circle (TMDB-style SVG arc) ──────────────────────────────────────
+// --- Rating Circle (TMDB-style SVG arc) --------------------------------------
 
 function RatingCircle({ rating }: { rating: number }) {
   const pct = Math.round(rating * 10);
@@ -46,7 +46,7 @@ function RatingCircle({ rating }: { rating: number }) {
   );
 }
 
-// ─── Skeleton Card ────────────────────────────────────────────────────────────
+// --- Skeleton Card ------------------------------------------------------------
 
 function SkeletonCard() {
   return (
@@ -60,7 +60,7 @@ function SkeletonCard() {
   );
 }
 
-// ─── Poster Card ──────────────────────────────────────────────────────────────
+// --- Poster Card --------------------------------------------------------------
 
 interface PosterCardProps {
   movie: Movie;
@@ -115,7 +115,7 @@ function PosterCard({ movie, onSelect }: PosterCardProps) {
   );
 }
 
-// ─── HScrollSection ───────────────────────────────────────────────────────────
+// --- HScrollSection -----------------------------------------------------------
 
 export interface HScrollTab {
   id: string;

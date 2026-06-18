@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 
 import { Film, SearchX, AlertTriangle } from "lucide-react";
 import MovieCard from "@/components/MovieCard";
 import type { Movie } from "@/types/movie";
 
-// ─── Skeleton card ────────────────────────────────────────────────────────────
+// --- Skeleton card ------------------------------------------------------------
 
 function SkeletonCard() {
   return (
@@ -20,7 +20,7 @@ function SkeletonCard() {
   );
 }
 
-// ─── Empty state ──────────────────────────────────────────────────────────────
+// --- Empty state --------------------------------------------------------------
 
 interface EmptyStateProps {
   query?: string;
@@ -50,7 +50,7 @@ function EmptyState({ query }: EmptyStateProps) {
   );
 }
 
-// ─── Error state ──────────────────────────────────────────────────────────────
+// --- Error state --------------------------------------------------------------
 
 function ErrorState({ message }: { message: string }) {
   return (
@@ -68,7 +68,7 @@ function ErrorState({ message }: { message: string }) {
   );
 }
 
-// ─── Section header ───────────────────────────────────────────────────────────
+// --- Section header -----------------------------------------------------------
 
 interface SectionHeaderProps {
   title: string;
@@ -96,23 +96,23 @@ function SectionHeader({ title, subtitle, totalResults }: SectionHeaderProps) {
   );
 }
 
-// ─── Column count variants ────────────────────────────────────────────────────
+// --- Column count variants ----------------------------------------------------
 
 type GridVariant = "default" | "compact" | "wide";
 
 const GRID_CLASSES: Record<GridVariant, string> = {
-  // 1 → 2 → 3 → 4
+  // 1 -> 2 -> 3 -> 4
   default:
     "grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4",
-  // 1 → 2 → 4 → 5 (for search results)
+  // 1 -> 2 -> 4 -> 5 (for search results)
   compact:
     "grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5",
-  // 1 → 2 → 3 (bigger cards, for featured sections)
+  // 1 -> 2 -> 3 (bigger cards, for featured sections)
   wide:
     "grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3",
 };
 
-// ─── MovieGrid ────────────────────────────────────────────────────────────────
+// --- MovieGrid ----------------------------------------------------------------
 
 interface MovieGridProps {
   movies: Movie[];
@@ -158,21 +158,21 @@ export default function MovieGrid({
       )}
 
       <div className={gridClass}>
-        {/* ── Loading skeleton ────────────────────────────────────────── */}
+        {/* -- Loading skeleton ------------------------------------------ */}
         {isLoading &&
           Array.from({ length: skeletonCount }).map((_, i) => (
             <SkeletonCard key={`skeleton-${i}`} />
           ))}
 
-        {/* ── Error state ─────────────────────────────────────────────── */}
+        {/* -- Error state ----------------------------------------------- */}
         {!isLoading && error && <ErrorState message={error} />}
 
-        {/* ── Empty state ─────────────────────────────────────────────── */}
+        {/* -- Empty state ----------------------------------------------- */}
         {!isLoading && !error && movies.length === 0 && (
           <EmptyState query={query} />
         )}
 
-        {/* ── Movie cards ──────────────────────────────────────────────── */}
+        {/* -- Movie cards ------------------------------------------------ */}
         {!isLoading &&
           !error &&
           movies.map((movie, index) => (
@@ -189,6 +189,6 @@ export default function MovieGrid({
   );
 }
 
-// ─── Named re-exports for convenience ────────────────────────────────────────
+// --- Named re-exports for convenience ----------------------------------------
 
 export { SkeletonCard, EmptyState, ErrorState, SectionHeader };

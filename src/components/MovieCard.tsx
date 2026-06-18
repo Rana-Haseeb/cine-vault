@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import { Star, Calendar, ImageOff, TrendingUp } from "lucide-react";
 import { getPosterUrl } from "@/lib/movieApi";
 import type { Movie } from "@/types/movie";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// --- Helpers ------------------------------------------------------------------
 
 function getRatingColor(rating: number): string {
   if (rating >= 8) return "text-emerald-400 border-emerald-400/40 bg-emerald-400/10";
@@ -33,7 +33,7 @@ function truncateOverview(text: string, maxLength = 120): string {
   return text.slice(0, maxLength).trimEnd() + "…";
 }
 
-// ─── Poster fallback ──────────────────────────────────────────────────────────
+// --- Poster fallback ----------------------------------------------------------
 
 function PosterFallback({ title }: { title: string }) {
   return (
@@ -48,7 +48,7 @@ function PosterFallback({ title }: { title: string }) {
   );
 }
 
-// ─── Genre pills ──────────────────────────────────────────────────────────────
+// --- Genre pills --------------------------------------------------------------
 
 function GenrePills({ genres }: { genres: Movie["genres"] }) {
   if (!genres?.length) return null;
@@ -66,7 +66,7 @@ function GenrePills({ genres }: { genres: Movie["genres"] }) {
   );
 }
 
-// ─── Shared card inner markup ─────────────────────────────────────────────────
+// --- Shared card inner markup -------------------------------------------------
 
 interface CardInnerProps {
   movie: Movie;
@@ -99,7 +99,7 @@ function CardInner({
 }: CardInnerProps) {
   return (
     <>
-      {/* ── Poster area ─────────────────────────────────────────────── */}
+      {/* -- Poster area ----------------------------------------------- */}
       <div className="relative aspect-[2/3] w-full overflow-hidden bg-slate-900">
         {/* Shimmer while loading */}
         {!imgLoaded && !imgError && (
@@ -132,7 +132,7 @@ function CardInner({
             {truncateOverview(movie.overview)}
           </p>
           <span className="mt-1 inline-flex w-fit items-center gap-1.5 rounded-full bg-violet-600/80 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-            View Details →
+            View Details ->
           </span>
         </div>
 
@@ -160,7 +160,7 @@ function CardInner({
         </div>
       </div>
 
-      {/* ── Card footer ─────────────────────────────────────────────── */}
+      {/* -- Card footer ----------------------------------------------- */}
       <div className="flex flex-col gap-1 px-3 py-3">
         <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-white transition-colors group-hover:text-violet-300">
           {movie.title}
@@ -182,7 +182,7 @@ function CardInner({
   );
 }
 
-// ─── MovieCard ────────────────────────────────────────────────────────────────
+// --- MovieCard ----------------------------------------------------------------
 
 interface MovieCardProps {
   movie: Movie;
