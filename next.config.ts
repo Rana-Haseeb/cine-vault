@@ -1,7 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      // TMDB poster and backdrop images
+      {
+        protocol: "https",
+        hostname: "image.tmdb.org",
+        pathname: "/t/p/**",
+      },
+      // Placeholder fallback images
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
