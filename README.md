@@ -10,7 +10,7 @@
 
 A modern, full-featured movie discovery platform built with **Next.js 16**, **React 19**, and **TypeScript**. CineSearch provides a premium, cinema-grade browsing experience powered by a hybrid **TMDB + OMDb** API architecture.
 
-> **Live at:** `http://localhost:3000` — or deploy to Vercel in one click.
+> **Live at:** [cine-vault-wine.vercel.app](https://cine-vault-wine.vercel.app/) — or deploy to Vercel in one click.
 
 ---
 
